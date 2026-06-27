@@ -1,8 +1,6 @@
 # T1 — Trình soạn thảo tài liệu cơ bản
 
-- **Phiên bản:** 1.0
-- **Ngày:** 2026-06-27
-- **Trạng thái:** Đề xuất
+**Ngày:** 2026-06-27
 
 ---
 
