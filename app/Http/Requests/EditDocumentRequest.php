@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveDocumentRequest extends FormRequest
+class EditDocumentRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,8 +14,8 @@ class SaveDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["required", "string"],
-            "content" => ["required", "string"],
+            "title" => ["string"],
+            "content" => ["string"],
         ];
     }
 }
