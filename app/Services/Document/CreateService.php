@@ -5,7 +5,7 @@ namespace App\Services\Document;
 use App\Models\Document;
 use App\Repositories\Document\IDocumentRepo;
 
-class SaveService
+class CreateService
 {
     public function __construct(
         protected readonly IDocumentRepo $documentRepo,
@@ -16,11 +16,8 @@ class SaveService
             "title" => "New document",
             "content" => "",
         ],
-        ?string $documentId = null
     ): Document
     {
-        return $documentId === null
-            ? $this->documentRepo->create($params)
-            : $this->documentRepo->update($documentId, $params);
+        return $this->documentRepo->create($params);
     }
 }

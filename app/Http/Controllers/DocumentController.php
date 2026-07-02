@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EditDocumentRequest;
-use App\Services\Document\SaveService;
+use App\Services\Document\CreateService;
+use App\Services\Document\UpdateService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -11,13 +12,14 @@ use Illuminate\Support\Facades\Response;
 class DocumentController extends Controller
 {
     public function __construct(
-        protected readonly SaveService $saveService,
+        protected readonly CreateService $createService,
+        protected readonly UpdateService $updateService,
     ) {}
 
-    public function new(): JsonResponse
+    public function create(): JsonResponse
     {
         try {
-            $this->saveService->execute();
+            $this->createService->execute();
 
             return Response::success(message: 'Document created successfully.');
         } catch (Exception $e) {
@@ -25,10 +27,10 @@ class DocumentController extends Controller
         }
     }
 
-    public function edit(EditDocumentRequest $request, string $documentId): JsonResponse
+    public function update(EditDocumentRequest $request, string $documentId): JsonResponse
     {
         try {
-            $this->saveService->execute(documentId: $documentId, params: $request->validated());
+            $this->updateService->execute(documentId: $documentId, params: $request->validated());
 
             return Response::success(message: 'Document updated successfully.');
         } catch (Exception $e) {
