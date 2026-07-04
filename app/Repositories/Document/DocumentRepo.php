@@ -15,6 +15,21 @@ class DocumentRepo extends BaseRepo implements IDocumentRepo
 
     public function getList(?array $attributes = null): Collection
     {
-        return $this->model->load('createdUser')->all();
+        $query = $this->model->newModelQuery()->with('createdUser');
+        
+        if (isset($attributes["search"])) {
+            $query = $query->where("title", "like", "%{$attributes['search']}%");
+        }
+
+        $limit = $attributes["limit"] ?? 10;
+        $offset = (($attributes["page"] ?? 1) - 1) * $limit;
+        $orderColumn = $attributes["order_column"] ?? "id";
+        $orderDirection = $attributes["order_direction"] ?? "asc";
+
+        $query = $query->offset($offset)
+            ->limit($limit)
+            ->orderBy($orderColumn, $orderDirection);
+
+        return $query->get();
     }
 }

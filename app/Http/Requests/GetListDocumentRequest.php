@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GetListDocumentRequest extends FormRequest
 {
@@ -15,10 +16,10 @@ class GetListDocumentRequest extends FormRequest
     {
         return [
             "search" => ["string"],
-            "page" => ["required", "string"],
-            "limit" => ["required", "string"],
+            "page" => ["required", "integer"],
+            "limit" => ["required", "integer"],
             "sort_column" => ["string"],
-            "sort_direction" => ["string"]
+            "sort_direction" => Rule::in(['asc', 'desc'])
         ];
     }
 }
