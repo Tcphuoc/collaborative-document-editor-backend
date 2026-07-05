@@ -4,7 +4,6 @@ namespace App\Services\Document;
 
 use App\Http\Resources\ListDocumentsResource;
 use App\Repositories\Document\IDocumentRepo;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class GetListService
 {
@@ -12,9 +11,9 @@ class GetListService
         protected readonly IDocumentRepo $documentRepo,
     ) {}
 
-    public function execute(?array $attributes = null): AnonymousResourceCollection
+    public function execute(?array $attributes = null): ListDocumentsResource
     {
         $result = $this->documentRepo->getList($attributes);
-        return ListDocumentsResource::collection($result);
+        return ListDocumentsResource::make($result);
     }
 }

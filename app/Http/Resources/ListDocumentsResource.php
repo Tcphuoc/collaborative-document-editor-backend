@@ -15,12 +15,8 @@ class ListDocumentsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "title" => $this->title,
-            "content" => $this->content,
-            "created_user" => $this->createdUser->fullName(),
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
+            "documents" => DocumentResource::collection($this['documents']),
+            "pagination_data" => PaginationResource::make($this['pagination_data'])
         ];
     }
 }

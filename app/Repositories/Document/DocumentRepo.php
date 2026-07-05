@@ -13,7 +13,7 @@ class DocumentRepo extends BaseRepo implements IDocumentRepo
         return Document::class;
     }
 
-    public function getList(?array $attributes = null): Collection
+    public function getList(?array $attributes = null): array
     {
         $query = $this->model->newModelQuery()->with('createdUser');
         
@@ -22,14 +22,23 @@ class DocumentRepo extends BaseRepo implements IDocumentRepo
         }
 
         $limit = $attributes["limit"] ?? 10;
-        $offset = (($attributes["page"] ?? 1) - 1) * $limit;
-        $orderColumn = $attributes["order_column"] ?? "id";
-        $orderDirection = $attributes["order_direction"] ?? "asc";
+        $currentPage = $attributes["page"] ?? 1;
+        $offset = ($currentPage - 1) * $limit;
+        $orderColumn = $attributes["sort_column"] ?? "id";
+        $orderDirection = $attributes["sort_direction"] ?? "asc";
+        $totalRecords = $query->count();
 
         $query = $query->offset($offset)
             ->limit($limit)
             ->orderBy($orderColumn, $orderDirection);
 
-        return $query->get();
+        return [
+            "documents" => $query->get(),
+            "pagination_data" => [
+                "page" => $currentPage,
+                "limit" => $limit,
+                "total" => $totalRecords,
+            ],
+        ];
     }
 }

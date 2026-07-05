@@ -15,7 +15,7 @@ class GetListDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "search" => ["string"],
+            "search" => ["nullable", "string"],
             "page" => ["required", "integer"],
             "limit" => ["required", "integer"],
             "sort_column" => ["string"],
